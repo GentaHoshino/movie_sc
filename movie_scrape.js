@@ -1,10 +1,16 @@
 const httpClient = require('cheerio-httpcli');
 
+
 async function fetch(){
   const baseUrl = 'http://cinema.pia.co.jp/title/tvlist/';
   const scheduleList = [];
   const result = await httpClient.fetch(baseUrl, 'sjis');
   const $ = result.$;
+  console.log(result);
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+  console.log($('h3 a').text());
+  
+
   $('tr', '#mainTvSchedule').each(function () {
       const row = $(this);
       const captions = $('.commonCaption', row).map(function () { return $(this).text().replace(/([\s\t\n]|&nbsp;)+/g, ' '); }).get();
@@ -16,8 +22,9 @@ async function fetch(){
           ch: $('.star strong', row).text().trim(),
           caps: captions
       });
-  });
 
+  });
+   console.log(scheduleList);
   return scheduleList;
 }
 
